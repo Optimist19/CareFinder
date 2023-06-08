@@ -1,5 +1,6 @@
 <template>
-	<div>
+	<NavBar :userEmail="userEmail"/>
+	<div class="container">
 		<h1>This is login page</h1>
 		<div class="form-div">
 			<button @click="googleSignUp">Sign up with Google</button>
@@ -13,25 +14,32 @@
 					<router-link to="/signup">Sign up / Register</router-link>
 				</div>
 			</form>
+			{{ userEmail }}
 		</div>
-		<!-- <router-view -->
+		<FooterView />
 	</div>
 </template>
 
 <script>
+<FooterView />
+import FooterView from "./FooterView.vue"
+import NavBar from "./NavBar.vue"
 import fire from "../firebase/firebase"
 import { useRouter } from "vue-router";
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { reactive, toRefs } from 'vue'
+import { onMounted, reactive, toRefs, ref } from 'vue'
 export default{
 	name: "LoginView",
 
-	// components:{
-	// 	SignUp
-	// },
+	components:{
+		FooterView,
+		NavBar
+	},
 
 	setup(){
 		const router = useRouter()
+		let userEmail = ref("")
+		console.log(userEmail.value)
 
 		const formDetails = reactive({
 			email: "",
@@ -43,10 +51,14 @@ export default{
 			console.log("The form details:",formDetails)
 
 			const auth = getAuth();
+
 			signInWithEmailAndPassword(auth, formDetails.email, formDetails.password)
 			.then((userCredential) => {
 				// Signed in 
 				const user = userCredential.user;
+				userEmail.value = user.email
+				console.log(userEmail.value)
+				console.log("the userEmail work")
 				console.log("you have successfully logged in", user)
 				alert("you have successfully logged in")
 				router.push({name: "home"})
@@ -77,6 +89,10 @@ export default{
 				// IdP data available using getAdditionalUserInfo(result)
 				// ...
 				console.log("googleSignUp worked", user)
+				console.log("googleSignUp worked userEmail", user.email)
+				userEmail.value = user.email
+				console.log(userEmail.value)
+			
 				router.push({name: "home"})
 			}).catch((error) => {
 				// Handle Errors here.
@@ -96,16 +112,31 @@ export default{
 			// }
 		}
 
+		onMounted(()=>{
+			// let hideLogIn = document.getElementById("login")
+			// hideLogIn.style.display = "none"
+
+	
+			let hideLogOut = document.getElementById("logOut")
+			hideLogOut.style.display = "none"
+		})
+		
+
 		return{
 			...toRefs(formDetails),
 			form,
-			googleSignUp
+			googleSignUp,
+			// userEmail
 		}
 	}
 };
 </script>
 
 <style scoped>
+
+.container{
+	padding-top: 20vh;
+}
 .form-div{
 	display: flex;
 	justify-content: center;
@@ -150,4 +181,9 @@ a{
 	text-decoration: none;
 	color: red;
 }
+
+/* footer{
+  height: 20vh;
+  background-color: white;
+} */
 </style>

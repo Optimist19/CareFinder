@@ -1,7 +1,14 @@
 <template>
-  <div class="hello">
-   
-  </div>
+  <!-- <div class="hello"> -->
+    <footer class="footer">
+    <div>
+      <p>Facebook</p>
+      <p>Twitter</p>
+      <p>Instagram</p>
+    </div>
+    
+  </footer>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -12,18 +19,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+footer{
+  margin: 20vh;
+  height: 20vh;
+  /* background-color: white; */
 }
 </style>

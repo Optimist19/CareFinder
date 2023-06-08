@@ -1,4 +1,5 @@
 <template>
+	<NavBar />
 	<div>
 		<h1>This is Sign up / register page</h1>
 		<div class="form-div">
@@ -15,18 +16,23 @@
 				</div>
 			</form>
 		</div>
-		<!-- <router-view -->
+		<FooterView />
 	</div>
 </template>
 
 <script>
+import FooterView from "./FooterView.vue"
+import NavBar from "./NavBar.vue"
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 // import SignUp from "./SignUp.vue"
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, onMounted } from 'vue'
 import { useRouter } from "vue-router";
 export default{
 	name: "SignUp",
-
+	components:{
+		FooterView,
+		NavBar
+	},
 	setup(){
 		const router = useRouter()
 		
@@ -60,6 +66,11 @@ export default{
 			});
 		}
 
+		onMounted(()=>{
+			let hideLogOut = document.getElementById("logOut")
+			hideLogOut.style.display = "none"
+		})
+
 		return{
 			...toRefs(formDetails),
 			form
@@ -67,7 +78,6 @@ export default{
 	}
 }
 </script>
-
 <style scoped>
 .form-div{
 	display: flex;
@@ -112,4 +122,9 @@ a{
 	text-decoration: none;
 	color: red;
 }
+
+/* footer{
+  height: 20vh;
+  background-color: white;
+} */
 </style>
