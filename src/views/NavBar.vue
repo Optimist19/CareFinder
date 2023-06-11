@@ -21,17 +21,14 @@ import { ref } from 'vue';
 export default {
 	name: "NavBar",
 	props:{
-		userEmail: {
-			type: String,
-			required: true
-		}
+		userEmail: String
 	},
 	setup(props){
     const router = useRouter()
+    console.log(props, "props worked")
 	// let showNameInitials = ref("")
 	let userEmail = ref(props.userEmail)
 	console.log(userEmail, "props worked")
-	console.log(props, "props worked")
 
 	// // const name = "Oluwasegun Bamidele";
 	// let names = initialNames.split(" ");

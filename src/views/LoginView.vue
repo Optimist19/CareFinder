@@ -24,10 +24,9 @@
 <FooterView />
 import FooterView from "./FooterView.vue"
 import NavBar from "./NavBar.vue"
-import fire from "../firebase/firebase"
 import { useRouter } from "vue-router";
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { onMounted, reactive, toRefs, ref } from 'vue'
+import { onMounted, reactive, toRefs, ref, watch } from 'vue'
 export default{
 	name: "LoginView",
 
@@ -38,8 +37,8 @@ export default{
 
 	setup(){
 		const router = useRouter()
-		let userEmail = ref("")
-		console.log(userEmail.value)
+		let userEmail = ref("okk")
+		
 
 		const formDetails = reactive({
 			email: "",
@@ -56,7 +55,7 @@ export default{
 			.then((userCredential) => {
 				// Signed in 
 				const user = userCredential.user;
-				userEmail.value = user.email
+				// userEmail.value = "hello"
 				console.log(userEmail.value)
 				console.log("the userEmail work")
 				console.log("you have successfully logged in", user)
@@ -90,8 +89,10 @@ export default{
 				// ...
 				console.log("googleSignUp worked", user)
 				console.log("googleSignUp worked userEmail", user.email)
-				userEmail.value = user.email
+				userEmail.value = "user.email"
+				// userEmail.value = "hello"
 				console.log(userEmail.value)
+				console.log(userEmail.value, "the username")
 			
 				router.push({name: "home"})
 			}).catch((error) => {
@@ -111,6 +112,10 @@ export default{
 			// 	router.push({name: "home"})
 			// }
 		}
+		
+		watch(userEmail, (update) => [
+			console.log(update, "update")
+		])
 
 		onMounted(()=>{
 			// let hideLogIn = document.getElementById("login")
@@ -126,7 +131,7 @@ export default{
 			...toRefs(formDetails),
 			form,
 			googleSignUp,
-			// userEmail
+			userEmail
 		}
 	}
 };
