@@ -1,20 +1,29 @@
 <template>
 	<NavBar />
-	<div>
-		<h1>This is Sign up / register page</h1>
+	
+	<div class="container">
 		<div class="form-div">
-			<form @submit.prevent="form">
-				<input type="text" v-model="lastName" placeholder="Last Name" />
-				<input type="text" v-model="firstName" placeholder="First Name" />
-				<input type="text" v-model="gender" placeholder="Gender" />
+			<h1>Sign Up</h1>
 
-				<input type="text" v-model="email" placeholder="Email" />
-				<input type="password" v-model="password" placeholder="Password" />
-				<input type="password" v-model="verifyPassword" placeholder="Confirm Password" />
+			<form @submit.prevent="form">
+				<input type="text" v-model="lastName" placeholder="Last Name" required/>
+				<input type="text" v-model="firstName" placeholder="First Name" required/>
+				<input type="text" v-model="gender" placeholder="Gender" required/>
+
+				<input type="text" v-model="email" placeholder="Email" required/>
+				<input type="password" v-model="password" placeholder="Password" required/>
+				<input type="password" v-model="verifyPassword" placeholder="Confirm Password" required/>
 				<div class="btn-div">
 					<button type="submit">Sign up</button>
 				</div>
 			</form>
+			<div class="login">
+				
+				<router-link to="/login">
+					Login
+				</router-link>
+				
+			</div>
 		</div>
 		<FooterView />
 	</div>
@@ -23,10 +32,12 @@
 <script>
 import FooterView from "./FooterView.vue"
 import NavBar from "./NavBar.vue"
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-// import SignUp from "./SignUp.vue"
+
 import { reactive, toRefs, onMounted } from 'vue'
-import { useRouter } from "vue-router";
+
+import { useStore } from 'vuex';
+
+
 export default{
 	name: "SignUp",
 	components:{
@@ -34,7 +45,7 @@ export default{
 		NavBar
 	},
 	setup(){
-		const router = useRouter()
+		let store =  useStore()
 		
 		const formDetails = reactive({
 			lastName: "",
@@ -45,30 +56,16 @@ export default{
 			verifyPassword: ""
 		})
 
-
 		function form(){
-			console.log("The register form details:",formDetails)
-
-			const auth = getAuth();
-			createUserWithEmailAndPassword(auth, formDetails.email, formDetails.password, formDetails.lastName, formDetails.firstName, formDetails.gender, formDetails.verifyPassword)
-			.then((userCredential) => {
-				// Signed in 
-				const user = userCredential.user;
-				// ...
-				console.log("The createUserWithEmailAndPassword worked",user)
-				alert("You have successfully Signed Up")
-				router.replace({name: "home"})
-			})
-			.catch((error) => {
-				const errorCode = error.code;
-				const errorMessage = error.message;
-				// ..
-			});
+			store.dispatch("createUserWithEmailAndPasswordAction", formDetails)
 		}
 
 		onMounted(()=>{
 			let hideLogOut = document.getElementById("logOut")
 			hideLogOut.style.display = "none"
+
+			let signup = document.getElementById("signup")
+      		signup.style.display = "none"
 		})
 
 		return{
@@ -79,52 +76,83 @@ export default{
 }
 </script>
 <style scoped>
+.container{
+	background-color: #42b983;
+	height: 100%;
+	padding-top: 30vh;
+	
+}
+
 .form-div{
+	background-color: rgb(255, 254, 251);
+	max-width: 40vw;
+	height: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 65vh;
+	flex-direction: column;
 	margin: 0 auto;
-	width: 30vw;
-	background-color: rgba(127, 255, 212, 0.2);
+	box-shadow: 5px 10px #888888;
+	margin-bottom: 10vh;
+	padding-bottom: 5vh;
+	padding-top: 3vh;
 }
 
+h1{
+	margin-bottom: 3vh;
+}
+
+
+.login{
+	margin-top: 2vh;
+}
+
+.login a{
+	text-decoration: none;
+}
+
+
+form{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	/* position: relative; */
+}
+
+
 input{
-	display: block;
 	margin: 2vh 0;
-	padding-top: 1.5vh; 
-	padding-bottom: 1.5vh; 
-	width: 20vw;
-	padding-left: 10px;
+	padding: 1vh 2vw;
+	font-size: 20px;
+	border: none;
+    border-bottom: 1px solid black;
+    outline: none;
 }
 
 input::placeholder{
-	padding-left: 3px;
+	font-size: 20px;
 }
 
-.form-div div{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
 
-.btn-div{
-	margin-bottom: 6vh;
-}
 
 button{
-	display: block;
-	padding: 1vh 1.5vw; 
+	margin-top: 2vh;
+	padding: 1.5vh 2.5vw;
+	background-color: #42b983;
+	color: white;
+	border-radius: 2px; 
+	border: none;
 	cursor: pointer;
+	transition: color 0.5s ease-in-out;
 }
 
-a{
-	text-decoration: none;
-	color: red;
+button:hover{
+	color: #42b983;
+	background-color: white;
 }
 
-/* footer{
-  height: 20vh;
-  background-color: white;
-} */
+
+
+
 </style>

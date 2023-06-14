@@ -58,11 +58,13 @@ router.beforeEach((to, from, next)=>{
 
       console.log("user is logged in", user)
       const uid = user.uid;
-
+      
       // ...
     } else {
       // User is signed out
+      console.log("user is signed out", user)
       // ...
+
     }
   });
 

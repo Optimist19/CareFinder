@@ -2,7 +2,8 @@
   <NavBar />
   <div class="about">
     <div class="para-con">
-      <p>Good morning, everyone!</p>
+      <p>Good day,</p>
+
 
       <p>
         Are you tired of traveling long distances in search of quality healthcare? Do you wish there was a hospital closer to your home, providing accessible medical services when you need them the most? Well, I have exciting news for you!
@@ -25,8 +26,8 @@
       </p>
     </div>
 
+    <FooterView />
   </div>
-  <FooterView />
 
 </template>
 
@@ -35,25 +36,33 @@ import FooterView from "./FooterView.vue"
 import NavBar from "./NavBar.vue"
 export default {
 	name: "footerView",
+
   components:{
     FooterView,
     NavBar
   },
+
   mounted(){
     let hideLogIn = document.getElementById("login")
     hideLogIn.style.display = "none"
+
+    let signup = document.getElementById("signup")
+      signup.style.display = "none"
   }
 }
 
 </script>
 
 <style scoped>
+body{
+}
 .about{
-  height: 80vh;
+  background-color: rgb(255, 249, 240);
+  height: 100%;
 }
 
 .para-con{
-  padding-top: 20vh;
+  padding-top: 22vh;
   height: 100%;
   text-align: justify;
   margin: 0 2vw;

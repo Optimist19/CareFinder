@@ -5,68 +5,35 @@
 			</div>
 			<div class="router-btn">
 			<router-link to="/">Home</router-link> |
-			<router-link to="/about">About</router-link> |
+			<router-link to="/about">About</router-link>|
 			<router-link to="/login" id="login">Login</router-link> |
+			<router-link id="signup" to="/signup">Sign Up</router-link> |
 			<button id="logOut" @click="logOut">Sign Out</button> |
-			<label for=""><strong>{{ userEmail }}</strong></label>
+			<label for=""><strong>{{ $store.state.userEmail }}</strong></label>
 		</div>
   </nav>
 </template>
 
 <script>
-import { getAuth, signOut } from "firebase/auth";
+import {useStore} from "vuex"
 import {useRouter} from "vue-router"
-import { ref } from 'vue';
+
 
 export default {
 	name: "NavBar",
-	props:{
-		userEmail: String
-	},
-	setup(props){
-    const router = useRouter()
-    console.log(props, "props worked")
-	// let showNameInitials = ref("")
-	let userEmail = ref(props.userEmail)
-	console.log(userEmail, "props worked")
 
-	// // const name = "Oluwasegun Bamidele";
-	// let names = initialNames.split(" ");
-	// let firstName = names[0].charAt(0);
-	// let lastName = names[names.length - 1].charAt(0);
-	
-	// showNameInitials.value = `${firstName}${lastName}`
-
-	// console.log(firstName); // Output: O
-	// console.log(lastName); // Output: B
-
+	setup(){
+    const store = useStore()
 
 
 
     const logOut = () =>{
-
-      const auth = getAuth();
-		
-      signOut(auth).then(() => {
-		// let hideLogOut = document.getElementById("logOut")
-		// 	hideLogOut.style.display = "none"
-        console.log("Sign-out successful")
-        alert("Sign-out successful")
-        // Sign-out successful.
-        router.push({name: "login"})
-      }).catch((error) => {
-        // An error happened.
-        console.log("Sign-out unsuccessful")
-
-      });
+      store.commit("signOutAccont", "")
     }
 
 
     return{
-      logOut,
-	  userEmail
-	//   initialNames,
-	//   showNameInitials
+      logOut
     }
   }
 }
@@ -99,6 +66,11 @@ nav a, button,label{
   text-decoration: none;
   cursor: pointer;
 }
+
+nav a:hover{
+  color: #42b983;
+  
+}
 nav a.router-link-exact-active {
   color: #42b983;
 }
@@ -108,6 +80,10 @@ nav button{
   background: red;
   padding: 1vh 2vw;
   border-radius: 3px;
+}
+
+label{
+  color: #42b983;
 }
 
 </style>

@@ -9,6 +9,8 @@ export default{
 }
 </script>
 
-<style scoped>
-
+<style>
+#app{
+  /* background-color: rgb(255, 249, 240); */
+}
 </style>

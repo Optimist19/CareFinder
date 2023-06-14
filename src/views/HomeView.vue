@@ -130,12 +130,15 @@ export default {
       });
     }
 
-    // onMounted(()=>{
-    //   let hideLogIn = document.getElementById("login")
-    //   hideLogIn.style.display = "none"
+    onMounted(()=>{
+      let hideLogIn = document.getElementById("login")
+      hideLogIn.style.display = "none"
+
+      let signup = document.getElementById("signup")
+      signup.style.display = "none"
 
     //   fetchHospitals()
-    // })
+    })
 
     return {
       ...toRefs(hospitals),
