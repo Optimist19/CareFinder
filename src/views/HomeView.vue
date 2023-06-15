@@ -11,64 +11,52 @@
     </div>
   </header>
   <main>
+    <div class="filter">
+      <i class="fa-solid fa-filter"></i>
+      <input type="text" v-model="search" placeholder="filter/sort by location" />
+    </div>
     
-      <form @submit.prevent="addHospitals">
+    <form @submit.prevent="addHospitals">
         <label>
-          <input type="text" v-model="hospitalName">
+          <input type="text" v-model="hospitalName" placeholder="Name" required>
         </label>
         <label>
-          <input type="text" v-model="hospitalAdd">
+          <input type="text" v-model="hospitalAdd" placeholder="Address" required>
         </label>
         <label>
-          <input type="text" v-model="hospitalWeb">
+          <input type="text" v-model="hospitalWeb" placeholder="Website" required>
         </label>
 
         <button>Add Hospital</button>
       </form>
-      <!-- <div class="list">
-        <ul v-for="list in result" :key="list[0]">
-          //<li>{{list[0]}}</li>
 
-          <li>{{list[1].hospitalName}}</li>
-          <li>{{list[1].hospitalAdd}}</li>
-          <li>{{list[1].hospitalWeb}}</li>
-        </ul>
+      <!-- <div v-for="fil in filter" :key="fil">
+        {{ fil }}
       </div> -->
+
       <div>
         
         <div class="hospital-icons" v-if="isLoading">
-          <i class="fa-solid fa-house-medical fa-beat"></i>
-          <i class="fa-solid fa-house-medical fa-beat"></i>
-          <i class="fa-solid fa-house-medical fa-beat"></i>
+        
+          <i class="fa-sharp fa-solid fa-spinner fa-spin"></i>
+        
         </div>
-        <table v-else>
-          <!-- <thead>
-            
-            <th>HOSPITAL'S NAME:</th>
-            <th>HOSPITAL'S ADDRESS:</th>
-            <th>HOSPITAL'S WEBSITE:</th>
-          </thead>
-          <tbody>
-            <tr>
-              KEY:<li>{{list[0]}}</li>
-              <td>{{list[1].hospitalName}}</td>
-              <td>{{list[1].hospitalAdd}}</td>
-              <td>{{list[1].hospitalWeb}}</td>
-            </tr>
-          </tbody> -->
-          
+        <table v-else>    
           <tr>
             <th>HOSPITAL'S NAME:</th>
             <th>HOSPITAL'S ADDRESS:</th>
             <th>HOSPITAL'S WEBSITE:</th>
           </tr>
-          <tr v-for="list in result" :key="list[0]">
+          <!-- <tr v-for="list in result" :key="list[0]"> -->
+          <tr v-for="list in setSearch" :key="list[0]">
             <td>{{list[1].hospitalName}}</td>
             <td>{{list[1].hospitalAdd}}</td>
             <td>{{list[1].hospitalWeb}}</td>
           </tr>
         </table>
       </div>
+
+
   </main>
   <FooterView />
 </template>
@@ -77,7 +65,7 @@
 import FooterView from "./FooterView.vue"
 import NavBar from "./NavBar.vue"
 import firebaseDB from "../firebase/firebase"
-import { reactive, toRefs, ref, onMounted } from "vue"
+import { reactive, toRefs, ref, onMounted, watch } from "vue"
 import { ref as firebaseRef, push, onValue } from "firebase/database";
 
 export default {
@@ -88,12 +76,16 @@ export default {
   },
 
   setup() {
-    let result = ref("")
+    let result = ref([])
     let db = firebaseDB
     let isLoading = ref(true)
+    let search = ref("")
+    let setSearch = ref("")
 
     console.log(result.value)
     console.log(db)
+
+  
 
     let fireRef = firebaseRef(db, "hospitalLocation")
     console.log(fireRef)
@@ -104,10 +96,24 @@ export default {
       hospitalWeb: ""
     })
 
+    // let filter = computed(()=>{
+    //     return result.value = result.value.filter((item) =>
+    //       (item[1].hospitalAdd.toLowerCase().includes(search.value.toLowerCase())
+    //   ))
+    // })
+
+    watch(search, function () {
+      setSearch.value = result.value.filter((item) =>
+          (item[1].hospitalAdd.toLowerCase().includes(search.value.toLowerCase())
+      ))
+    });
+
     const addHospitals = () => {
       console.log(hospitals)
       push(fireRef, hospitals)
       fetchHospitals()
+      alert("Thanks, we will investigate your new input before we can add it")
+      console.log("Thanks, we will investigate your new input before we can add it")
     }
 
     function fetchHospitals() {
@@ -119,6 +125,7 @@ export default {
         // let values = Object.values(snapshot.val())
         // let value = Object.values(snapshot.val())
         result.value = response
+        setSearch.value = response
         // console.log(key)
         // console.log(values)
 
@@ -137,7 +144,7 @@ export default {
       let signup = document.getElementById("signup")
       signup.style.display = "none"
 
-    //   fetchHospitals()
+      fetchHospitals()
     })
 
     return {
@@ -145,7 +152,10 @@ export default {
       addHospitals,
       fetchHospitals,
       result,
-      isLoading
+      isLoading,
+      // filter,
+      search,
+      setSearch
     }
   }
 }
@@ -198,17 +208,49 @@ header video {
   height: 100%;
 }
 
-/* ul{
-  border: 1px solid red;
-} */
+
+main .filter{
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 0 1vw;
+  color: #42b983;
+}
+
+input{
+	margin: 2vh 0;
+	padding: 1vh 2vw;
+	font-size: 20px;
+}
+
+input::placeholder{
+	font-size: 20px;
+}
+
+
+
+button{
+	margin-top: 2vh;
+	padding: 1.5vh 2.5vw;
+	background-color: #42b983;
+	color: white;
+	border-radius: 2px; 
+	border: none;
+	cursor: pointer;
+	transition: color 0.5s ease-in-out;
+}
+
+button:hover{
+	color: #42b983;
+	background-color: white;
+}
 
 .hospital-icons{
   color: #42b983;
-  font-size: 32px;
+  font-size: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0 3vw;
   margin-top: 2vh;
   margin-bottom: 2vh;
 }
@@ -220,8 +262,7 @@ table {
 }
 
 th, td {
-  /* border: 1px solid red; */
-  /* text-align: left; */
+
   padding: 2vh 3vw;
 }
 
@@ -234,8 +275,13 @@ tr:nth-child(even) {
   color: rgb(250, 249, 246);
 }
 
-/* footer{
-  height: 20vh;
-  background-color: white;
-} */
+form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
 </style>
