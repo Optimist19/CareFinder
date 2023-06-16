@@ -55,9 +55,29 @@
           </tr>
         </table>
       </div>
-
-
+      
+      <div class="showMarkDown-div">
+        <div v-for="showMarkDown in storeUsermarkDown" :key="showMarkDown.id" class="showMarkDown">
+          <!-- <p>{{ showMarkDown.id }}</p> -->
+          <p v-html="showMarkDown.user"></p>
+          <p>{{ showMarkDown.date }}</p>
+        </div>
+      </div>
   </main>
+  
+  <aside>
+    <div class="note-textarea">
+      <h3>NOTE</h3>
+      <textarea v-model="userNote" cols="50" rows="10"></textarea>
+    </div>
+    <div class="preview">
+      <h3>PREVIEW</h3>
+      <!-- <div>{{ userNote }}</div> -->
+      <!-- <div>{{ markdown }}</div> -->
+      <div v-html="markdown"></div>
+    </div>
+    <button @click="usermarkDownArr">push</button>
+  </aside>
   <FooterView />
 </template>
 
@@ -65,8 +85,10 @@
 import FooterView from "./FooterView.vue"
 import NavBar from "./NavBar.vue"
 import firebaseDB from "../firebase/firebase"
-import { reactive, toRefs, ref, onMounted, watch } from "vue"
+import { reactive, toRefs, ref, onMounted, watch, computed } from "vue"
 import { ref as firebaseRef, push, onValue } from "firebase/database";
+import MarkdownIt from 'markdown-it';
+import DOMPurify from 'dompurify';
 
 export default {
   name: 'HomeView',
@@ -81,11 +103,22 @@ export default {
     let isLoading = ref(true)
     let search = ref("")
     let setSearch = ref("")
+    let userNote = ref("")
+    let usermarkDown = ref("")
+    let storeUsermarkDown = ref([])
+    
+    
 
     console.log(result.value)
     console.log(db)
 
-  
+    const md = new MarkdownIt({
+      html: true,
+      breaks: true,
+      linkify: true,
+    })
+
+
 
     let fireRef = firebaseRef(db, "hospitalLocation")
     console.log(fireRef)
@@ -144,8 +177,29 @@ export default {
       let signup = document.getElementById("signup")
       signup.style.display = "none"
 
-      fetchHospitals()
+      // fetchHospitals()
     })
+
+
+    // code concerning markdown
+
+    const markdown = computed(() =>{
+      const sanitiseUserInputHtml  = md.render(userNote.value);
+
+      usermarkDown.value = DOMPurify.sanitize(sanitiseUserInputHtml)
+
+      return DOMPurify.sanitize(sanitiseUserInputHtml);
+    })
+
+    const usermarkDownArr = () =>{
+      storeUsermarkDown.value.push({
+        id: Math.floor(Math.random() * 50),
+        user: usermarkDown.value,
+        date: new Date().toLocaleDateString()
+      })
+      
+      console.log(storeUsermarkDown.value,"testing markdown")
+    }
 
     return {
       ...toRefs(hospitals),
@@ -155,7 +209,11 @@ export default {
       isLoading,
       // filter,
       search,
-      setSearch
+      setSearch,
+      userNote,
+      markdown,
+      storeUsermarkDown,
+      usermarkDownArr
     }
   }
 }
@@ -281,7 +339,54 @@ form{
   align-items: center;
 }
 
+.showMarkDown-div{
+  margin: 0 2vw;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1vh 2vw;
+}
+
+.showMarkDown{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.showMarkDown p{
+  margin: 2vh 0;
+}
+
+aside{
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: center;
+  align-items: center;
+  gap: 0 2vw
+}
+
+.note-textarea{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 
+.preview{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview div{
+  border: 1px solid #42b983;
+  width: 30vw;
+  height: 35vh;
+  /* overflow-wrap: break-word; */
+  white-space: break-spaces;
+  word-wrap: break-word;
+}
 
 </style>
