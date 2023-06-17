@@ -1,12 +1,11 @@
 <template>
   <div>
     <div class="showMarkDown-div">
-      <router-link :to="{name:'MarkDownDynRouting', params:{id:showMarkDown.id}}"
-        v-for="showMarkDown in storeUsermarkDown"
+      <router-link :to="{name: 'MarkDownDynRouting', params:{id: showMarkDown.id}}"
+        v-for="showMarkDown in $store.state.storeUsermarkDown"
         :key="showMarkDown.id"
         class="showMarkDown"
       >
-        <!-- <p>{{ showMarkDown.id }}</p> -->
         <p v-html="showMarkDown.user"></p>
         <p>{{ showMarkDown.date }}</p>
       </router-link>
@@ -17,54 +16,32 @@
         <h3>NOTE</h3>
         <textarea v-model="userNote" cols="50" rows="10"></textarea>
       </div>
-      <div class="preview">
-        <h3>PREVIEW</h3>
-        <!-- <div>{{ userNote }}</div> -->
-        <!-- <div>{{ markdown }}</div> -->
-        <div v-html="markdown"></div>
-      </div>
       <button @click="usermarkDownArr">push</button>
     </aside>
   </div>
 </template>
 
 <script>
-// import MarkdownIt from 'markdown-it';
-// import DOMPurify from 'dompurify';
-import { ref, computed } from "vue"
-import { useStore } from 'vuex';
-
+import { ref} from "vue"
+import {useStore} from "vuex"
 
 export default {
   name: "MarkDown",
   
   setup(){
 	let userNote = ref("")
-    // let usermarkDown = ref("")
-    // let storeUsermarkDown = ref([])
 	let store = useStore()
 
-	// const md = new MarkdownIt({
-    //   html: true,
-    //   breaks: true,
-    //   linkify: true,
-    // })
-
-	const markdown = computed(() =>{
-
-		store.commit("mark", userNote.value)
-    })
 
 	const usermarkDownArr = () =>{
-		store.commit("button")
+		store.commit("markdownToArr", userNote.value)
     }
 
 
 	return{
 		userNote,
-      markdown,
-    //   storeUsermarkDown,
       usermarkDownArr,
+	  store
 	}
   }
 
@@ -72,7 +49,14 @@ export default {
 </script>
 
 <style scoped>
+
+a{
+	color: black;
+	text-decoration: none;
+}
+
 .showMarkDown-div{
+  padding-top: 3vh;
   margin: 0 2vw;
   display: flex;
   flex-wrap: wrap;
@@ -93,17 +77,12 @@ export default {
   margin: 2vh 0;
 }
 
-a{
-	color: black;
-	text-decoration: none;
-}
-
 aside{
   display: flex;
   /* flex-direction: column; */
   justify-content: center;
   align-items: center;
-  gap: 0 2vw
+  margin: 0 auto;
 }
 
 .note-textarea{

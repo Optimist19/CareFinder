@@ -10,12 +10,10 @@ import DOMPurify from 'dompurify';
 export default createStore({
   state: {
     userEmail: "",
-    // userMarkdownInput: ""
+   
 
-    usermarkDown: "",
+    // MarkDown
     storeUsermarkDown: [],
-
-
     md: new MarkdownIt({
       html: true,
       breaks: true,
@@ -25,30 +23,6 @@ export default createStore({
   getters: {
   },
   mutations: {
-    add(state, payload){
-      console.log("payload", payload);
-      console.log("state", state.count);
-      state.count = state.count + payload
-      console.log("state1", state.count);
-    },
-
-    mark(state, payload){
-      const sanitiseUserInputHtml  = state.md.render(payload);
-
-      state.usermarkDown = DOMPurify.sanitize(sanitiseUserInputHtml)
-
-      return DOMPurify.sanitize(sanitiseUserInputHtml);
-    },
-
-    button(state){
-        state.storeUsermarkDown.push({
-        id: Math.floor(Math.random() * 50),
-        user: state.usermarkDown,
-        date: new Date().toLocaleDateString()
-      })
-      
-      console.log(state.storeUsermarkDown,"testing markdown")
-    },
 
     signInWithEmailAndPasswordMutation(state, payload){
       state.userEmail = payload
@@ -81,6 +55,22 @@ export default createStore({
 
       });
     },
+
+    markdownToArr(state, payload){
+      const sanitiseUserInputHtml  = state.md.render(payload);
+
+      
+      state.storeUsermarkDown.push({
+        id: Math.floor(Math.random() * 50),
+        user: DOMPurify.sanitize(sanitiseUserInputHtml),
+        date: new Date().toLocaleDateString()
+      }) 
+      console.log(state.storeUsermarkDown,"testing markdown")
+      
+      
+      // return DOMPurify.sanitize(sanitiseUserInputHtml);
+      
+    }
     
   },
 
