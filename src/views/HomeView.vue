@@ -1,84 +1,65 @@
 <template>
-  <NavBar />
-  <header>
-    <video autoplay muted loop>
-    
-    <source src="../assets/backvid.mp4" type="video/mp4">
-    </video>
-    <div class="speech">
-      <img src="https://rea.gov.ng/wp-content/uploads/2020/11/coat-of-arm.png" alt="">
-      <p>Locate hospitals close to you</p>
-    </div>
-  </header>
-  <main>
-    <div class="filter">
-      <i class="fa-solid fa-filter"></i>
-      <input type="text" v-model="search" placeholder="filter/sort by location" />
-    </div>
-    
-    <form @submit.prevent="addHospitals">
-        <label>
-          <input type="text" v-model="hospitalName" placeholder="Name" required>
-        </label>
-        <label>
-          <input type="text" v-model="hospitalAdd" placeholder="Address" required>
-        </label>
-        <label>
-          <input type="text" v-model="hospitalWeb" placeholder="Website" required>
-        </label>
-
-        <button>Add Hospital</button>
-      </form>
-
-      <!-- <div v-for="fil in filter" :key="fil">
-        {{ fil }}
-      </div> -->
-
-      <div>
-        
-        <div class="hospital-icons" v-if="isLoading">
-        
-          <i class="fa-sharp fa-solid fa-spinner fa-spin"></i>
-        
-        </div>
-        <table v-else>    
-          <tr>
-            <th>HOSPITAL'S NAME:</th>
-            <th>HOSPITAL'S ADDRESS:</th>
-            <th>HOSPITAL'S WEBSITE:</th>
-          </tr>
-          <!-- <tr v-for="list in result" :key="list[0]"> -->
-          <tr v-for="list in setSearch" :key="list[0]">
-            <td>{{list[1].hospitalName}}</td>
-            <td>{{list[1].hospitalAdd}}</td>
-            <td>{{list[1].hospitalWeb}}</td>
-          </tr>
-        </table>
+  <div class="container">
+    <NavBar />
+    <header>
+      <video autoplay muted loop>
+      
+      <source src="../assets/backvid.mp4" type="video/mp4">
+      </video>
+      <div class="speech">
+        <img src="https://rea.gov.ng/wp-content/uploads/2020/11/coat-of-arm.png" alt="">
+        <p>Locate hospitals close to you</p>
+      </div>
+    </header>
+    <main>
+      <div class="filter">
+        <i class="fa-solid fa-filter"></i>
+        <input type="text" v-model="search" placeholder="filter/sort by location" />
       </div>
       
-      <div class="showMarkDown-div">
-        <div v-for="showMarkDown in storeUsermarkDown" :key="showMarkDown.id" class="showMarkDown">
-          <!-- <p>{{ showMarkDown.id }}</p> -->
-          <p v-html="showMarkDown.user"></p>
-          <p>{{ showMarkDown.date }}</p>
+      <form @submit.prevent="addHospitals">
+          <label>
+            <input type="text" v-model="hospitalName" placeholder="Name" required>
+          </label>
+          <label>
+            <input type="text" v-model="hospitalAdd" placeholder="Address" required>
+          </label>
+          <label>
+            <input type="text" v-model="hospitalWeb" placeholder="Website" required>
+          </label>
+
+          <button>Add Hospital</button>
+        </form>
+
+        <!-- <div v-for="fil in filter" :key="fil">
+          {{ fil }}
+        </div> -->
+
+        <div>
+          
+          <div class="hospital-icons" v-if="isLoading">
+          
+            <i class="fa-sharp fa-solid fa-spinner fa-spin"></i>
+          
+          </div>
+          <table v-else>    
+            <tr>
+              <th>HOSPITAL'S NAME:</th>
+              <th>HOSPITAL'S ADDRESS:</th>
+              <th>HOSPITAL'S WEBSITE:</th>
+            </tr>
+            <!-- <tr v-for="list in result" :key="list[0]"> -->
+            <tr v-for="list in setSearch" :key="list[0]">
+              <td>{{list[1].hospitalName}}</td>
+              <td>{{list[1].hospitalAdd}}</td>
+              <td>{{list[1].hospitalWeb}}</td>
+            </tr>
+          </table>
         </div>
-      </div>
-  </main>
-  
-  <aside>
-    <div class="note-textarea">
-      <h3>NOTE</h3>
-      <textarea v-model="userNote" cols="50" rows="10"></textarea>
-    </div>
-    <div class="preview">
-      <h3>PREVIEW</h3>
-      <!-- <div>{{ userNote }}</div> -->
-      <!-- <div>{{ markdown }}</div> -->
-      <div v-html="markdown"></div>
-    </div>
-    <button @click="usermarkDownArr">push</button>
-  </aside>
-  <FooterView />
+        <MarkDown />
+    </main>
+    <FooterView />
+  </div>
 </template>
 
 <script>
@@ -87,14 +68,14 @@ import NavBar from "./NavBar.vue"
 import firebaseDB from "../firebase/firebase"
 import { reactive, toRefs, ref, onMounted, watch, computed } from "vue"
 import { ref as firebaseRef, push, onValue } from "firebase/database";
-import MarkdownIt from 'markdown-it';
-import DOMPurify from 'dompurify';
+import MarkDown from "./MarkDown.vue"
 
 export default {
   name: 'HomeView',
   components: {
     FooterView,
-    NavBar
+    NavBar,
+    MarkDown
   },
 
   setup() {
@@ -103,20 +84,12 @@ export default {
     let isLoading = ref(true)
     let search = ref("")
     let setSearch = ref("")
-    let userNote = ref("")
-    let usermarkDown = ref("")
-    let storeUsermarkDown = ref([])
     
     
 
     console.log(result.value)
     console.log(db)
 
-    const md = new MarkdownIt({
-      html: true,
-      breaks: true,
-      linkify: true,
-    })
 
 
 
@@ -181,26 +154,6 @@ export default {
     })
 
 
-    // code concerning markdown
-
-    const markdown = computed(() =>{
-      const sanitiseUserInputHtml  = md.render(userNote.value);
-
-      usermarkDown.value = DOMPurify.sanitize(sanitiseUserInputHtml)
-
-      return DOMPurify.sanitize(sanitiseUserInputHtml);
-    })
-
-    const usermarkDownArr = () =>{
-      storeUsermarkDown.value.push({
-        id: Math.floor(Math.random() * 50),
-        user: usermarkDown.value,
-        date: new Date().toLocaleDateString()
-      })
-      
-      console.log(storeUsermarkDown.value,"testing markdown")
-    }
-
     return {
       ...toRefs(hospitals),
       addHospitals,
@@ -209,17 +162,16 @@ export default {
       isLoading,
       // filter,
       search,
-      setSearch,
-      userNote,
-      markdown,
-      storeUsermarkDown,
-      usermarkDownArr
+      setSearch
     }
   }
 }
 </script>
 
 <style scoped>
+
+
+
 header {
   position: relative;
   top: 0;
@@ -266,7 +218,9 @@ header video {
   height: 100%;
 }
 
-
+main{
+  background-color: rgb(255, 249, 240);
+}
 main .filter{
   font-size: 18px;
   display: flex;
@@ -339,54 +293,5 @@ form{
   align-items: center;
 }
 
-.showMarkDown-div{
-  margin: 0 2vw;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1vh 2vw;
-}
-
-.showMarkDown{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.showMarkDown p{
-  margin: 2vh 0;
-}
-
-aside{
-  display: flex;
-  /* flex-direction: column; */
-  justify-content: center;
-  align-items: center;
-  gap: 0 2vw
-}
-
-.note-textarea{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-
-.preview{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.preview div{
-  border: 1px solid #42b983;
-  width: 30vw;
-  height: 35vh;
-  /* overflow-wrap: break-word; */
-  white-space: break-spaces;
-  word-wrap: break-word;
-}
 
 </style>

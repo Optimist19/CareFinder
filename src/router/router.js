@@ -2,8 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import SignUp from '../views/SignUp.vue'
+import MarkDownDynRouting from '../views/MarkDownDynRouting.vue'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import fire from "../firebase/firebase"
+// import fire from "../firebase/firebase"
 
 
 
@@ -41,6 +42,11 @@ const routes = [
     name: 'signup',
     component: SignUp
   },
+  {
+    path: '/markdownDynRouting/:id',
+    name: 'MarkDownDynRouting',
+    component: MarkDownDynRouting
+  }
 ]
 
 const router = createRouter({

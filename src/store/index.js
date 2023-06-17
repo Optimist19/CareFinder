@@ -1,6 +1,8 @@
 import { createStore } from 'vuex'
 import router from '@/router/router';
 import { getAuth, signOut, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import MarkdownIt from 'markdown-it';
+import DOMPurify from 'dompurify';
 // import { useRouter } from "vue-router";
 
 
@@ -8,7 +10,17 @@ import { getAuth, signOut, GoogleAuthProvider, signInWithPopup, signInWithEmailA
 export default createStore({
   state: {
     userEmail: "",
-    count: 6
+    // userMarkdownInput: ""
+
+    usermarkDown: "",
+    storeUsermarkDown: [],
+
+
+    md: new MarkdownIt({
+      html: true,
+      breaks: true,
+      linkify: true,
+    })
   },
   getters: {
   },
@@ -18,6 +30,24 @@ export default createStore({
       console.log("state", state.count);
       state.count = state.count + payload
       console.log("state1", state.count);
+    },
+
+    mark(state, payload){
+      const sanitiseUserInputHtml  = state.md.render(payload);
+
+      state.usermarkDown = DOMPurify.sanitize(sanitiseUserInputHtml)
+
+      return DOMPurify.sanitize(sanitiseUserInputHtml);
+    },
+
+    button(state){
+        state.storeUsermarkDown.push({
+        id: Math.floor(Math.random() * 50),
+        user: state.usermarkDown,
+        date: new Date().toLocaleDateString()
+      })
+      
+      console.log(state.storeUsermarkDown,"testing markdown")
     },
 
     signInWithEmailAndPasswordMutation(state, payload){
@@ -50,7 +80,7 @@ export default createStore({
         console.log("Sign-out unsuccessful")
 
       });
-    }
+    },
     
   },
 
