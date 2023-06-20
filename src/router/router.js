@@ -17,7 +17,8 @@ const routes = [
     component: HomeView,
    
     meta: { 
-      requiresAuth: true 
+      requiresAuth: true ,
+      title: 'Home'
     }
     
   },
@@ -29,23 +30,27 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
     meta: { 
-      requiresAuth: true 
+      requiresAuth: true ,
+      title: 'About'
     }
   },
   {
     path: '/login',
     name: 'login',
-    component: LoginView
+    component: LoginView,
+    meta: { title: 'Login' }
   },
   {
     path: '/signup',
     name: 'signup',
-    component: SignUp
+    component: SignUp,
+    meta: { title: 'SignUp' }
   },
   {
     path: '/markdownDynRouting/:id',
     name: 'MarkDownDynRouting',
-    component: MarkDownDynRouting
+    component: MarkDownDynRouting,
+    meta: { title: 'Content' }
   }
 ]
 
@@ -76,7 +81,7 @@ router.beforeEach((to, from, next)=>{
 
   if(to.meta.requiresAuth){
     if(auth.currentUser){
-
+      document.title = to.meta.title || 'Default Page Title';
       console.log(auth.currentUser,"auth.currentUser")
       next();
     }else{

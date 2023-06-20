@@ -55,6 +55,7 @@
               <td>{{list[1].hospitalWeb}}</td>
             </tr>
           </table>
+          <button @click="toExportHospitalData">Export Data</button>
         </div>
         <MarkDown />
     </main>
@@ -66,9 +67,10 @@
 import FooterView from "./FooterView.vue"
 import NavBar from "./NavBar.vue"
 import firebaseDB from "../firebase/firebase"
-import { reactive, toRefs, ref, onMounted, watch, computed } from "vue"
+import { reactive, toRefs, ref, onMounted, watch } from "vue"
 import { ref as firebaseRef, push, onValue } from "firebase/database";
 import MarkDown from "./MarkDown.vue"
+import csvDownload from 'json-to-csv-export'
 
 export default {
   name: 'HomeView',
@@ -84,6 +86,11 @@ export default {
     let isLoading = ref(true)
     let search = ref("")
     let setSearch = ref("")
+    const canonicalUrl = ref('');
+    let forExport = ref('')
+    // let forExportObj = ref('')
+
+
     
     
 
@@ -128,20 +135,46 @@ export default {
         isLoading.value = false
         let response = Object.entries(snapshot.val())
         // let key = Object.keys(snapshot.val())
-        // let values = Object.values(snapshot.val())
+        let values = Object.values(snapshot.val())
         // let value = Object.values(snapshot.val())
         result.value = response
         setSearch.value = response
         // console.log(key)
-        // console.log(values)
+        console.log(values)
+        forExport.value = values
 
         // result.value.push(values)
         console.log(result)
         console.log(result.value)
+        // console.log(result.value[1])
+        // forExport.value = result
       }, {
         onlyOnce: true
       });
     }
+
+    // console.log(forExport.value)
+    console.log(forExport)
+
+    // for(let i = 0; i < forExport.length; i++){
+    //   forExportObj.push(forExport[1])
+    // }
+    //   console.log(forExportObj)
+
+
+    // forExport.forEach(a =>{
+    //   forExportObj.push = a[1]
+    //   console.log(a[1])
+    //   console.log(forExportObj)
+    //   console.log(forExportObj.value)
+    //   // a[1]
+    // })
+
+    // for (const forExport1 of forExport.value) {
+    //   forExport1 = item[1]; // Access the object at index 1
+    //   forExportObj.value = forExport1 // Access the object at index 1
+    //   console.log(forExportObj.value);
+    // }
 
     onMounted(()=>{
       let hideLogIn = document.getElementById("login")
@@ -150,10 +183,35 @@ export default {
       let signup = document.getElementById("signup")
       signup.style.display = "none"
 
-      // fetchHospitals()
+
+      const metaDescription = document.createElement('meta');
+      metaDescription.name = 'description';
+      metaDescription.content = 'This is home page to where to see the list of all hospitals in Nigeria and also you get to make use of markdown.';
+      document.head.appendChild(metaDescription);
+
+      const canonicalLink = document.createElement('link');
+      canonicalLink.rel = 'canonical';
+      canonicalLink.href = canonicalUrl.value;
+      document.head.appendChild(canonicalLink);
+
+
+
+      fetchHospitals()
     })
 
 
+    const dataToConvert = {
+      data: forExport.value,
+      filename: 'HospitalData',
+      delimiter: ',',
+      headers: ['hospitalAdd', "hospitalName", "hospitalWeb"]
+    }
+
+    function toExportHospitalData(){
+      csvDownload(dataToConvert)
+    }
+    // console.log(forExport.value)
+    console.log(forExport)
     return {
       ...toRefs(hospitals),
       addHospitals,
@@ -162,7 +220,11 @@ export default {
       isLoading,
       // filter,
       search,
-      setSearch
+      setSearch,
+      canonicalUrl,
+      forExport,
+      dataToConvert,
+      toExportHospitalData
     }
   }
 }
@@ -250,6 +312,7 @@ button{
 	border: none;
 	cursor: pointer;
 	transition: color 0.5s ease-in-out;
+  font-weight: bold;
 }
 
 button:hover{

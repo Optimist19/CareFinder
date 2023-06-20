@@ -2,7 +2,7 @@
 	<NavBar />
 	<div class="container">
 		<div class="form-div">
-			<h1>Login</h1>
+			<h1>Login your details here</h1>
 			<p>
 				<label for="">
 					Don't have an account?
@@ -35,7 +35,7 @@
 import FooterView from "./FooterView.vue"
 import NavBar from "./NavBar.vue"
 
-import { onMounted, reactive} from 'vue'
+import { onMounted, reactive, ref} from 'vue'
 import { useStore } from 'vuex';
 
 
@@ -51,7 +51,8 @@ export default{
 	setup(){
 
 		const store = useStore();
-		
+		const canonicalUrl = ref('');
+
 
 		const formDetails = reactive({
 			email: "",
@@ -73,6 +74,17 @@ export default{
 
 			let hideLogOut = document.getElementById("logOut")
 			hideLogOut.style.display = "none"
+
+			const metaDescription = document.createElement('meta');
+			metaDescription.name = 'description';
+			metaDescription.content = 'This is login page of the application. A user can as well sign up using google account.';
+			document.head.appendChild(metaDescription);
+
+			const canonicalLink = document.createElement('link');
+			canonicalLink.rel = 'canonical';
+			canonicalLink.href = canonicalUrl.value;
+			document.head.appendChild(canonicalLink);
+			console.log(canonicalUrl)
 		})
 		
 
@@ -80,6 +92,7 @@ export default{
 			formDetails,
 			form,
 			googleSignUp,
+			canonicalUrl
 		}
 	}
 };
@@ -151,6 +164,7 @@ button{
 	border: none;
 	cursor: pointer;
 	transition: color 0.5s ease-in-out;
+	font-weight: bold;
 }
 
 button:hover{

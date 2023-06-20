@@ -11,18 +11,18 @@
       </router-link>
     </div>
 
-    <aside>
+    <div class="noteText-div">
       <div class="note-textarea">
-        <h3>NOTE</h3>
+        <h1>Create your blog here....</h1>
         <textarea v-model="userNote" cols="50" rows="10"></textarea>
       </div>
-      <button @click="usermarkDownArr">push</button>
-    </aside>
+      <button @click="usermarkDownArr">Push</button>
+    </div>
   </div>
 </template>
 
 <script>
-import { ref} from "vue"
+import { onMounted, ref } from "vue"
 import {useStore} from "vuex"
 
 export default {
@@ -31,17 +31,32 @@ export default {
   setup(){
 	let userNote = ref("")
 	let store = useStore()
+  const canonicalUrl = ref('');
+
 
 
 	const usermarkDownArr = () =>{
 		store.commit("markdownToArr", userNote.value)
-    }
+  }
+
+  onMounted(() => {
+      const metaDescription = document.createElement('meta');
+      metaDescription.name = 'description';
+      metaDescription.content = 'This is the page that forms part of the home page, in this particular page, a user uses the markdown to create contents in the application.';
+      document.head.appendChild(metaDescription);
+
+      const canonicalLink = document.createElement('link');
+      canonicalLink.rel = 'canonical';
+      canonicalLink.href = canonicalUrl.value;
+      document.head.appendChild(canonicalLink);
+    });
 
 
 	return{
 		userNote,
       usermarkDownArr,
-	  store
+	  store,
+    canonicalUrl
 	}
   }
 
@@ -74,15 +89,17 @@ a{
 }
 
 .showMarkDown p{
-  margin: 2vh 0;
+  padding: 2vh 0;
 }
 
-aside{
+.noteText-div{
   display: flex;
   /* flex-direction: column; */
   justify-content: center;
   align-items: center;
+  gap: 0 2vw;
   margin: 0 auto;
+  margin-top: 3vh;
 }
 
 .note-textarea{
@@ -93,19 +110,20 @@ aside{
 }
 
 
-.preview{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+button{
+	margin-top: 2vh;
+	padding: 1.5vh 2.5vw;
+	background-color: #42b983;
+	color: white;
+	border-radius: 2px; 
+	border: none;
+	cursor: pointer;
+	transition: color 0.5s ease-in-out;
+  font-weight: bold;
 }
 
-.preview div{
-  border: 1px solid #42b983;
-  width: 30vw;
-  height: 35vh;
-  /* overflow-wrap: break-word; */
-  white-space: break-spaces;
-  word-wrap: break-word;
+button:hover{
+	color: #42b983;
+	background-color: white;
 }
 </style>

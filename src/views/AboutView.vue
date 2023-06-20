@@ -31,7 +31,9 @@
 
 </template>
 
+
 <script>
+import { onMounted, ref } from "vue"
 import FooterView from "./FooterView.vue"
 import NavBar from "./NavBar.vue"
 export default {
@@ -42,20 +44,65 @@ export default {
     NavBar
   },
 
+  // setup(){
+  //   let  canonicalUrl = ref(''),
+
+
+  //   onMounted(()=>{
+  //     let hideLogIn = document.getElementById("login")
+  //     hideLogIn.style.display = "none"
+
+  //     let signup = document.getElementById("signup")
+  //     signup.style.display = "none"
+
+  //     const metaDescription = document.createElement('meta');
+  //     metaDescription.name = 'description';
+  //     metaDescription.content = 'This page particularly talks about the application, i.e, it helps users to be able to locate the nearest hospital around them.';
+  //     document.head.appendChild(metaDescription);
+
+  //     const canonicalLink = document.createElement('link');
+  //     canonicalLink.rel = 'canonical';
+  //     canonicalLink.href = canonicalUrl.value;
+  //     document.head.appendChild(canonicalLink);
+  //   })
+
+  //   return{
+  //     canonicalUrl
+  //   }
+  // }
+
   mounted(){
     let hideLogIn = document.getElementById("login")
     hideLogIn.style.display = "none"
 
     let signup = document.getElementById("signup")
       signup.style.display = "none"
+  },
+  data() {
+    return {
+      canonicalUrl: '',
+    };
+  },
+  head() {
+    return {
+      meta: [
+        { name: 'description', content: 'This page particularly talks about the application, i.e, it helps users to be able to locate the nearest hospital around them.' },
+        // Other meta tags
+      ],
+    };
+  },
+  mounted() {
+    const canonicalLink = document.createElement('link');
+    canonicalLink.rel = 'canonical';
+    canonicalLink.href = this.canonicalUrl;
+    document.head.appendChild(canonicalLink);
   }
 }
 
 </script>
 
 <style scoped>
-body{
-}
+
 .about{
   background-color: rgb(255, 249, 240);
   height: 100%;

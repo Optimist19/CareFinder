@@ -33,7 +33,7 @@
 import FooterView from "./FooterView.vue"
 import NavBar from "./NavBar.vue"
 
-import { reactive, toRefs, onMounted } from 'vue'
+import { reactive, toRefs, ref, onMounted } from 'vue'
 
 import { useStore } from 'vuex';
 
@@ -46,7 +46,7 @@ export default{
 	},
 	setup(){
 		let store =  useStore()
-		
+		const canonicalUrl = ref('');
 		const formDetails = reactive({
 			lastName: "",
 			firstName: "",
@@ -66,11 +66,22 @@ export default{
 
 			let signup = document.getElementById("signup")
       		signup.style.display = "none"
+
+			  const metaDescription = document.createElement('meta');
+			metaDescription.name = 'description';
+			metaDescription.content = 'This page handles user signing out of the application.';
+			document.head.appendChild(metaDescription);
+
+			const canonicalLink = document.createElement('link');
+			canonicalLink.rel = 'canonical';
+			canonicalLink.href = canonicalUrl.value;
+			document.head.appendChild(canonicalLink);
 		})
 
 		return{
 			...toRefs(formDetails),
-			form
+			form,
+			canonicalUrl
 		}
 	}
 }

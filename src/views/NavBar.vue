@@ -1,7 +1,7 @@
 <template>
     <nav>
 		<div class="logo">
-			<img alt="Vue logo" src="https://media.istockphoto.com/id/1205755672/vector/doctor-point-logo-vector-design.jpg?s=612x612&w=0&k=20&c=am4xjzUkQFXigdiDkKfD6N52aiW4Zixkh-wILVlLAAM=">
+			<img alt="Vue logo" src="https://media.istockphoto.com/id/1205755672/vector/doctor-point-logo-vector-design.jpg?s=612x612&w=0&k=20&c=am4xjzUkQFXigdiDkKfD6N52aiW4Zixkh-wILVlLAAM="/>
 			</div>
 			<div class="router-btn">
 			<router-link to="/">Home</router-link> |
@@ -16,7 +16,7 @@
 
 <script>
 import {useStore} from "vuex"
-import {useRouter} from "vue-router"
+import {onMounted, ref} from "vue"
 
 
 export default {
@@ -24,6 +24,7 @@ export default {
 
 	setup(){
     const store = useStore()
+    const canonicalUrl = ref('');
 
 
 
@@ -31,9 +32,21 @@ export default {
       store.commit("signOutAccont", "")
     }
 
+    onMounted(() => {
+      const metaDescription = document.createElement('meta');
+      metaDescription.name = 'description';
+      metaDescription.content = "This page has our home page link, about page link, signout page link, has the logo of the application and the user's email.";
+      document.head.appendChild(metaDescription);
+
+      const canonicalLink = document.createElement('link');
+      canonicalLink.rel = 'canonical';
+      canonicalLink.href = canonicalUrl.value;
+      document.head.appendChild(canonicalLink);
+    });
 
     return{
-      logOut
+      logOut,
+      canonicalUrl
     }
   }
 }
@@ -80,6 +93,7 @@ nav button{
   background: red;
   padding: 1vh 2vw;
   border-radius: 3px;
+  font-weight: bold;
 }
 
 label{
