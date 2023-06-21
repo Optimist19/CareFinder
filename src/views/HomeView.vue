@@ -55,7 +55,7 @@
               <td>{{list[1].hospitalWeb}}</td>
             </tr>
           </table>
-          <button @click="toExportHospitalData">Export Data</button>
+          <button @click="toExportHospitalData" class="exportDataBtn">Export Data</button>
         </div>
         <MarkDown />
     </main>
@@ -141,7 +141,7 @@ export default {
         setSearch.value = response
         // console.log(key)
         console.log(values)
-        forExport.value = values
+        dataToConvert.data = values
 
         // result.value.push(values)
         console.log(result)
@@ -156,25 +156,6 @@ export default {
     // console.log(forExport.value)
     console.log(forExport)
 
-    // for(let i = 0; i < forExport.length; i++){
-    //   forExportObj.push(forExport[1])
-    // }
-    //   console.log(forExportObj)
-
-
-    // forExport.forEach(a =>{
-    //   forExportObj.push = a[1]
-    //   console.log(a[1])
-    //   console.log(forExportObj)
-    //   console.log(forExportObj.value)
-    //   // a[1]
-    // })
-
-    // for (const forExport1 of forExport.value) {
-    //   forExport1 = item[1]; // Access the object at index 1
-    //   forExportObj.value = forExport1 // Access the object at index 1
-    //   console.log(forExportObj.value);
-    // }
 
     onMounted(()=>{
       let hideLogIn = document.getElementById("login")
@@ -200,17 +181,20 @@ export default {
     })
 
 
+    // The code below is for exporting CSV file
+    // Putting this object in reactive also did work
     const dataToConvert = {
-      data: forExport.value,
+      data: "", //the objects in the database which is already in an array was passed to this property in fetchHospitals()
       filename: 'HospitalData',
       delimiter: ',',
       headers: ['hospitalAdd', "hospitalName", "hospitalWeb"]
     }
 
+
     function toExportHospitalData(){
       csvDownload(dataToConvert)
     }
-    // console.log(forExport.value)
+    
     console.log(forExport)
     return {
       ...toRefs(hospitals),
@@ -287,8 +271,13 @@ main .filter{
   font-size: 18px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0 1vw;
   color: #42b983;
+}
+
+main .filter i{
+  margin: 0 1vw;
 }
 
 input{
@@ -352,8 +341,13 @@ tr:nth-child(even) {
 
 form{
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
+}
+
+
+.exportDataBtn{
+  margin-left: 2vw;
 }
 
 
