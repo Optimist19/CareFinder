@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="markdown-con">
     <div class="showMarkDown-div">
       <router-link :to="{name: 'MarkDownDynRouting', params:{id: showMarkDown.id}}"
         v-for="showMarkDown in $store.state.storeUsermarkDown"
@@ -13,10 +13,10 @@
 
     <div class="noteText-div">
       <div class="note-textarea">
-        <h1>Create your blog here....</h1>
+        <h1>Create contents here</h1>
         <textarea v-model="userNote" cols="50" rows="10"></textarea>
       </div>
-      <button @click="usermarkDownArr">Push</button>
+      <button @click="usermarkDownArr">Post</button>
     </div>
   </div>
 </template>
@@ -31,12 +31,11 @@ export default {
   setup(){
 	let userNote = ref("")
 	let store = useStore()
-  const canonicalUrl = ref('');
-
 
 
 	const usermarkDownArr = () =>{
 		store.commit("markdownToArr", userNote.value)
+    userNote.value = ""
   }
 
   onMounted(() => {
@@ -45,25 +44,24 @@ export default {
       metaDescription.content = 'This is the page that forms part of the home page, in this particular page, a user uses the markdown to create contents in the application.';
       document.head.appendChild(metaDescription);
 
-      const canonicalLink = document.createElement('link');
-      canonicalLink.rel = 'canonical';
-      canonicalLink.href = canonicalUrl.value;
-      document.head.appendChild(canonicalLink);
     });
 
 
-	return{
-		userNote,
+    return{
+      userNote,
       usermarkDownArr,
-	  store,
-    canonicalUrl
-	}
+      store
+    }
   }
 
 };
 </script>
 
 <style scoped>
+.markdown-con{
+  margin-bottom: 3vh;
+}
+
 
 a{
 	color: black;

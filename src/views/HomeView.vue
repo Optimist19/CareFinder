@@ -71,6 +71,7 @@ import { reactive, toRefs, ref, onMounted, watch } from "vue"
 import { ref as firebaseRef, push, onValue } from "firebase/database";
 import MarkDown from "./MarkDown.vue"
 import csvDownload from 'json-to-csv-export'
+import swal from 'sweetalert'
 
 export default {
   name: 'HomeView',
@@ -88,17 +89,9 @@ export default {
     let setSearch = ref("")
     const canonicalUrl = ref('');
     let forExport = ref('')
-    // let forExportObj = ref('')
-
-
-    
-    
 
     console.log(result.value)
     console.log(db)
-
-
-
 
     let fireRef = firebaseRef(db, "hospitalLocation")
     console.log(fireRef)
@@ -109,11 +102,7 @@ export default {
       hospitalWeb: ""
     })
 
-    // let filter = computed(()=>{
-    //     return result.value = result.value.filter((item) =>
-    //       (item[1].hospitalAdd.toLowerCase().includes(search.value.toLowerCase())
-    //   ))
-    // })
+
 
     watch(search, function () {
       setSearch.value = result.value.filter((item) =>
@@ -125,8 +114,17 @@ export default {
       console.log(hospitals)
       push(fireRef, hospitals)
       fetchHospitals()
-      alert("Thanks, we will investigate your new input before we can add it")
-      console.log("Thanks, we will investigate your new input before we can add it")
+      // alert("Thanks, it has been successfully added")
+      swal({
+        title: "Good job!",
+        text: "Thanks, it has been successfully added",
+        icon: "success",
+        button: "OK!",
+      });
+      console.log("Thanks, it has been successfully added")
+      hospitals.hospitalName =  "",
+      hospitals.hospitalAdd =  "",
+      hospitals.hospitalWeb =  ""
     }
 
     function fetchHospitals() {
@@ -164,6 +162,7 @@ export default {
       let signup = document.getElementById("signup")
       signup.style.display = "none"
 
+      // document.title = "Home"
 
       const metaDescription = document.createElement('meta');
       metaDescription.name = 'description';
@@ -323,6 +322,7 @@ table {
   border-collapse: collapse;
   width: 100%;
   text-align: center;
+  margin: 3vh 0
 }
 
 th, td {

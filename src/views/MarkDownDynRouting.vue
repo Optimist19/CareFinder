@@ -28,9 +28,7 @@ export default {
 		let route = useRoute()
 		let store = useStore()
 		let result = ref(null)
-		const canonicalUrl = ref('');
 		
-
 		let data = store.state.storeUsermarkDown
 		console.log(data.value, "data")
 
@@ -52,17 +50,11 @@ export default {
 			metaDescription.content = 'This page is a dynamical routing, which makes part of the home page, when a user uses the markdown to make a content and the user wants to have a glance of it long content.';
 			document.head.appendChild(metaDescription);
 
-			const canonicalLink = document.createElement('link');
-			canonicalLink.rel = 'canonical';
-			canonicalLink.href = canonicalUrl.value;
-			document.head.appendChild(canonicalLink);
-
 		})
 		return{
 			id,
 			data,
-			result,
-			canonicalUrl
+			result
 		}
 	}
 }

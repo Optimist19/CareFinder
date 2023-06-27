@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "unit:test": "jest"
   },
   "dependencies": {
     "core-js": "^3.8.3",
@@ -12,6 +13,7 @@
     "firebase": "^9.21.0",
     "json-to-csv-export": "^2.1.1",
     "markdown-it": "^13.0.1",
+    "sweetalert": "^2.1.2",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.2"
@@ -20,7 +22,8 @@
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
-    "@vue/cli-service": "~5.0.0"
+    "@vue/cli-service": "~5.0.0",
+    "jest": "^29.5.0"
   },
   "browserslist": [
     "> 1%",

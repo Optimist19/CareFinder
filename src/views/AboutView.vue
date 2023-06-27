@@ -2,7 +2,7 @@
   <NavBar />
   <div class="about">
     <div class="para-con">
-      <p>Good day,</p>
+      <p class="first-para">Good day,</p>
 
 
       <p>
@@ -33,7 +33,6 @@
 
 
 <script>
-import { onMounted, ref } from "vue"
 import FooterView from "./FooterView.vue"
 import NavBar from "./NavBar.vue"
 export default {
@@ -44,45 +43,12 @@ export default {
     NavBar
   },
 
-  // setup(){
-  //   let  canonicalUrl = ref(''),
-
-
-  //   onMounted(()=>{
-  //     let hideLogIn = document.getElementById("login")
-  //     hideLogIn.style.display = "none"
-
-  //     let signup = document.getElementById("signup")
-  //     signup.style.display = "none"
-
-  //     const metaDescription = document.createElement('meta');
-  //     metaDescription.name = 'description';
-  //     metaDescription.content = 'This page particularly talks about the application, i.e, it helps users to be able to locate the nearest hospital around them.';
-  //     document.head.appendChild(metaDescription);
-
-  //     const canonicalLink = document.createElement('link');
-  //     canonicalLink.rel = 'canonical';
-  //     canonicalLink.href = canonicalUrl.value;
-  //     document.head.appendChild(canonicalLink);
-  //   })
-
-  //   return{
-  //     canonicalUrl
-  //   }
-  // }
-
-  mounted(){
-    let hideLogIn = document.getElementById("login")
-    hideLogIn.style.display = "none"
-
-    let signup = document.getElementById("signup")
-      signup.style.display = "none"
-  },
   data() {
     return {
       canonicalUrl: '',
     };
   },
+
   head() {
     return {
       meta: [
@@ -91,7 +57,15 @@ export default {
       ],
     };
   },
+
   mounted() {
+    let hideLogIn = document.getElementById("login")
+    hideLogIn.style.display = "none"
+
+    let signup = document.getElementById("signup")
+    signup.style.display = "none"
+
+
     const canonicalLink = document.createElement('link');
     canonicalLink.rel = 'canonical';
     canonicalLink.href = this.canonicalUrl;

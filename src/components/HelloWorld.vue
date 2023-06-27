@@ -1,4 +1,4 @@
-<template>
+<!-- <template> -->
   <!-- <div class="hello"> -->
     <footer class="footer">
     <div>
@@ -11,14 +11,14 @@
   <!-- </div> -->
 </template>
 
-<script>
+<!-- <script>
 export default {
   name: 'HelloWorld'
 }
-</script>
+</script> -->
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<!-- <style scoped> -->
 footer{
   margin: 20vh;
   height: 20vh;

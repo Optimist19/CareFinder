@@ -3,6 +3,7 @@ import router from '@/router/router';
 import { getAuth, signOut, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import MarkdownIt from 'markdown-it';
 import DOMPurify from 'dompurify';
+import swal from 'sweetalert'
 // import { useRouter } from "vue-router";
 
 
@@ -48,10 +49,24 @@ export default createStore({
 
         // Sign-out successful.
 
-        alert("Sign-out successful")
+        // alert("Sign-out successful")
+        swal({
+          title: "Good job!",
+          text: "Signed out successful!",
+          icon: "success",
+          button: "OK!",
+        });
+
       }).catch((error) => {
         // An error happened.
         console.log("Sign-out unsuccessful")
+
+        swal({
+          title: "Ooops!",
+          text: "Sign-out unsuccessful!",
+          icon: "error",
+          button: "OK!",
+        });
 
       });
     },
@@ -94,7 +109,14 @@ export default createStore({
 				// console.log(state.userEmail)
 				console.log("the userEmail work")
 				console.log("you have successfully logged in", user)
-				alert("you have successfully logged in")
+				// alert("you have successfully logged in")
+
+        swal({
+          title: "Good job!",
+          text: "you have successfully logged in!",
+          icon: "success",
+          button: "OK!",
+        });
         // const router = useRouter()
 
 				router.push({name: "home"})
@@ -104,7 +126,15 @@ export default createStore({
 				const errorCode = error.code;
 				const errorMessage = error.message;
 				console.log("Sorry bro...", errorMessage, errorCode)
-        alert("Sorry, we do not have your data, kindly signup")
+        // alert("Sorry, we do not have your data, kindly signup")
+
+        swal({
+          title: "Ooops!",
+          text: "Sorry, we do not have your data, kindly signup!",
+          icon: "error",
+          button: "OK!",
+        });
+        
 			});
 
 		
@@ -133,8 +163,15 @@ export default createStore({
           // Handle Errors here.
           const errorCode = error.code;
           const errorMessage = error.message;
+
+          // swal({
+          //   title: "Ooops",
+          //   text: "googleSignUp did worked!",
+          //   icon: "error",
+          //   button: "Ok!",
+          // });
           console.log("googleSignUp did worked", errorMessage)
-  
+          
           // The email of the user's account used.
           // The AuthCredential type that was used.
           const credential = GoogleAuthProvider.credentialFromError(error);
@@ -148,7 +185,15 @@ export default createStore({
     createUserWithEmailAndPasswordAction(context, payload){
         if(payload.password !== payload.verifyPassword || payload.password.length <= 5 || payload.verifyPassword.length <= 5){
           console.log("There is a password conflict or your password is less than 6 characters")
-          alert("There is a password conflict or your password is less than 6 characters")
+          // alert("There is a password conflict or your password is less than 6 characters")
+
+          swal({
+            title: "Info!",
+            text: "Password conflict or password is less than 6 characters",
+            icon: "info",
+            button: "OK!",
+          });
+
         }else{
           const auth = getAuth();
           createUserWithEmailAndPassword(auth, payload.email, payload.password, payload.lastName, payload.firstName, payload.gender, payload.verifyPassword)
@@ -159,7 +204,15 @@ export default createStore({
             console.log("The createUserWithEmailAndPassword worked",user)
             
             context.commit("createUserWithEmailAndPasswordMutation", user.email)
-            alert("You have successfully Signed Up")
+            // alert("You have successfully Signed Up")
+
+            swal({
+              title: "Good Job!",
+              text: "You have successfully Signed Up",
+              icon: "success",
+              button: "OK!",
+            });
+
             router.replace({name: "home"})
           })
           .catch((error) => {

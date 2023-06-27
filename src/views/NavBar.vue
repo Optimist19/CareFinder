@@ -24,8 +24,6 @@ export default {
 
 	setup(){
     const store = useStore()
-    const canonicalUrl = ref('');
-
 
 
     const logOut = () =>{
@@ -38,15 +36,10 @@ export default {
       metaDescription.content = "This page has our home page link, about page link, signout page link, has the logo of the application and the user's email.";
       document.head.appendChild(metaDescription);
 
-      const canonicalLink = document.createElement('link');
-      canonicalLink.rel = 'canonical';
-      canonicalLink.href = canonicalUrl.value;
-      document.head.appendChild(canonicalLink);
     });
 
     return{
-      logOut,
-      canonicalUrl
+      logOut
     }
   }
 }

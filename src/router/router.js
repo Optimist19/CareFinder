@@ -44,7 +44,7 @@ const routes = [
     path: '/signup',
     name: 'signup',
     component: SignUp,
-    meta: { title: 'SignUp' }
+    meta: { title: 'Sign Up' }
   },
   {
     path: '/markdownDynRouting/:id',

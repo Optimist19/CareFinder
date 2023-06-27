@@ -46,7 +46,7 @@ export default{
 	},
 	setup(){
 		let store =  useStore()
-		const canonicalUrl = ref('');
+		let canonicalUrl = ref("")
 		const formDetails = reactive({
 			lastName: "",
 			firstName: "",
@@ -67,7 +67,9 @@ export default{
 			let signup = document.getElementById("signup")
       		signup.style.display = "none"
 
-			  const metaDescription = document.createElement('meta');
+			document.title = "Sign Up"
+
+			const metaDescription = document.createElement('meta');
 			metaDescription.name = 'description';
 			metaDescription.content = 'This page handles user signing out of the application.';
 			document.head.appendChild(metaDescription);

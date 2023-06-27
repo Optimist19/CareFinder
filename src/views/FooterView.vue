@@ -16,25 +16,15 @@ import { onMounted, ref } from 'vue';
 export default {
 	name: "footerView",
 	setup() {
-		const canonicalUrl = ref('');
 
-
-    onMounted(() => {
-      const metaDescription = document.createElement('meta');
-      metaDescription.name = 'description';
-      metaDescription.content = 'This is the footer of the application, which has the social media handles to contact.';
-      document.head.appendChild(metaDescription);
-	  
-      const canonicalLink = document.createElement('link');
-      canonicalLink.rel = 'canonical';
-      canonicalLink.href = canonicalUrl.value;
-      document.head.appendChild(canonicalLink);
-    });
-
-	return{
-		canonicalUrl
+    	onMounted(() => {
+			const metaDescription = document.createElement('meta');
+			metaDescription.name = 'description';
+			metaDescription.content = 'This is the footer of the application, which has the social media handles to contact.';
+			document.head.appendChild(metaDescription);
+			
+		});
 	}
-  }
 }
 </script>
 

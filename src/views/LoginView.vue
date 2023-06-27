@@ -75,6 +75,8 @@ export default{
 			let hideLogOut = document.getElementById("logOut")
 			hideLogOut.style.display = "none"
 
+			document.title = "Login"
+
 			const metaDescription = document.createElement('meta');
 			metaDescription.name = 'description';
 			metaDescription.content = 'This is login page of the application. A user can as well sign up using google account.';
