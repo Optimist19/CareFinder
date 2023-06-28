@@ -1,26 +1,19 @@
 <template>
-	<NavBarComp />
-	<MarkdownDynamicComp />
-	<FooterComp />
-  
+	<div class="container">
+		<div class="p-con">
+			<!-- <p>{{ result.id }}</p> -->
+			<p v-html=" result.user"></p>
+			<p>{{ result.date }}</p>
+		</div>
+	</div>
 </template>
 
 <script>
-import NavBarComp from "../components/NavBarComp.vue"
-import FooterComp from "../components/FooterComp.vue"
-import MarkdownDynamicComp from "../components/MarkdownDynamicComp.vue"
-
-
 import {useStore} from "vuex"
 import { useRoute } from "vue-router"
 import {ref, onMounted} from "vue"
 export default {
-	name: "MarkDownDynRouting",
-	components: {
-		NavBarComp,
-		FooterComp,
-		MarkdownDynamicComp
-	},
+	name: "MarkdownDynamicComp",
 	setup(){
 
 		let route = useRoute()
@@ -43,6 +36,8 @@ export default {
 			let signup = document.getElementById("signup")
 			signup.style.display = "none"
 
+			document.title = "Sign Up"
+
 			const metaDescription = document.createElement('meta');
 			metaDescription.name = 'description';
 			metaDescription.content = 'This page is a dynamical routing, which makes part of the home page, when a user uses the markdown to make a content and the user wants to have a glance of it long content.';
@@ -59,4 +54,18 @@ export default {
 </script>
 
 <style scoped>
+.container{
+	background-color: rgb(255, 249, 240);
+	height: 100vh;
+}
+
+.p-con{
+	height: 100%;
+	padding-top: 24vh;
+	margin: 0 2vw;
+}
+
+p{
+	margin: 2vh 0
+}
 </style>

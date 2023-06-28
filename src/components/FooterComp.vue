@@ -14,7 +14,7 @@
 <script>
 import { onMounted, ref } from 'vue';
 export default {
-	name: "footerView",
+	name: "footerComp",
 	setup() {
 
     	onMounted(() => {

@@ -20,7 +20,7 @@ import {onMounted, ref} from "vue"
 
 
 export default {
-	name: "NavBar",
+	name: "NavBarComp",
 
 	setup(){
     const store = useStore()
