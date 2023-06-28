@@ -1,0 +1,4 @@
+https://kare-finder.netlify.app/
+https://kare-finder.netlify.app/about
+https://kare-finder.netlify.app/login
+https://kare-finder.netlify.app/signup
