@@ -5,5 +5,4 @@ import "./assets/global.css"
 import store from './store/index'
 
 let app = createApp(App)
-app.use(store)
-.use(router).mount('#app')
+app.use(store).use(router).mount('#app')

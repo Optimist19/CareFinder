@@ -60,7 +60,6 @@ export default {
 }
 
 .p-con{
-	height: 100%;
 	padding-top: 24vh;
 	margin: 0 2vw;
 }
