@@ -1,7 +1,7 @@
 <template>
     <nav>
 		<div class="logo">
-			<img alt="Vue logo" src="https://media.istockphoto.com/id/1205755672/vector/doctor-point-logo-vector-design.jpg?s=612x612&w=0&k=20&c=am4xjzUkQFXigdiDkKfD6N52aiW4Zixkh-wILVlLAAM="/>
+			<img alt="Vue logo" src="../assets/carefinder.log.jpg"/>
 			</div>
 			<div class="router-btn">
 			<router-link to="/">Home</router-link> |

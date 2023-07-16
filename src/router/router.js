@@ -38,19 +38,18 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView,
-    meta: { title: 'Login' }
+    // meta: { title: 'Login' }
   },
   {
     path: '/signup',
     name: 'signup',
     component: SignUp,
-    meta: { title: 'Sign Up' }
+    // meta: { title: 'Sign Up' }
   },
   {
     path: '/markdownDynRouting/:id',
     name: 'MarkDownDynRouting',
     component: MarkDownDynRouting,
-    meta: { title: 'Content' }
   }
 ]
 

@@ -36,7 +36,7 @@ export default {
 			let signup = document.getElementById("signup")
 			signup.style.display = "none"
 
-			document.title = "Sign Up"
+			document.title = "Content"
 
 			const metaDescription = document.createElement('meta');
 			metaDescription.name = 'description';
