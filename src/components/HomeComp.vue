@@ -55,7 +55,7 @@
 			{{ fil }}
 		  </div> -->
 
-      <div>
+      <div class="hospital">
         <div class="hospital-icons" v-if="isLoading">
           <i class="fa-sharp fa-solid fa-spinner fa-spin"></i>
         </div>
@@ -236,6 +236,7 @@ export default {
 </script>
 
 <style scoped>
+
 header {
   position: relative;
   top: 0;
@@ -282,6 +283,7 @@ header video {
   height: 100%;
 }
 
+
 main {
   background-color: rgb(255, 249, 240);
 }
@@ -302,6 +304,7 @@ input {
   margin: 2vh 0;
   padding: 1vh 2vw;
   font-size: 20px;
+  border: none;
 }
 
 input::placeholder {
@@ -364,5 +367,64 @@ form {
 
 .exportDataBtn {
   margin-left: 2vw;
+}
+
+
+@media only screen and (max-width: 375px) {
+  form {
+    display: grid;
+  }
+
+  td {
+    font-size: 15px;
+  }
+
+  header p{
+    font-size: 20px;
+  }
+
+  main .filter i {
+    display: none;
+  }
+
+  input::placeholder {
+    font-size: 16px;
+  }
+}
+
+
+@media only screen and (max-width: 769px) {
+  form {
+    display: grid;
+  }
+
+  td {
+    font-size: 17px;
+  }
+
+  header p{
+    font-size: 23px;
+  }
+
+
+  input::placeholder {
+    font-size: 18px;
+  }
+}
+
+
+@media only screen and (max-width: 946px) {
+  form {
+    display: grid;
+  }
+
+  td {
+    font-size: 17px;
+  }
+
+
+  input::placeholder {
+    font-size: 18px;
+  }
 }
 </style>

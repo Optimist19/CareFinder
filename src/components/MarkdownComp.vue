@@ -121,4 +121,20 @@ button:hover {
   color: #42b983;
   background-color: white;
 }
+
+@media only screen and (max-width: 420px) {
+  .noteText-div {
+    display: grid;
+    gap: 2vh 0;
+ 
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .noteText-div {
+    display: grid;
+    gap: 2vh 0;
+ 
+  }
+}
 </style>

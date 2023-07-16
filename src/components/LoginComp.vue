@@ -91,12 +91,12 @@ export default{
 .container{
 	background-color: #42b983;
 	height: 100vh;
-	padding-top: 25vh;
+	padding-top: 35vh;
 }
 
 .form-div{
 	background-color: rgb(255, 254, 251);
-	max-width: 40vw;
+	max-width: 90%;
 	height: 80%;
 	display: flex;
 	justify-content: center;
@@ -161,5 +161,33 @@ button:hover{
 	background-color: white;
 }
 
+@media only screen and (max-width: 420px) {
+	h1{
+		font-size: 19px;
+	}
 
+	p{
+		text-align: center;
+
+	}
+
+	input::placeholder {
+		font-size: 16px;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	h1{
+		font-size: 22px;
+	}
+
+	p{
+		text-align: center;
+
+	}
+
+	input::placeholder {
+		font-size: 19px;
+	}
+}
 </style>

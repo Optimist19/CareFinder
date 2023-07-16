@@ -89,7 +89,7 @@ export default{
 
 .form-div{
 	background-color: rgb(255, 254, 251);
-	max-width: 40vw;
+	max-width: 90%;
 	height: 70%;
 	display: flex;
 	justify-content: center;
@@ -156,6 +156,34 @@ button:hover{
 }
 
 
+@media only screen and (max-width: 420px) {
+	h1{
+		font-size: 19px;
+	}
 
+	p{
+		text-align: center;
+
+	}
+
+	input::placeholder {
+		font-size: 16px;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	h1{
+		font-size: 22px;
+	}
+
+	p{
+		text-align: center;
+
+	}
+
+	input::placeholder {
+		font-size: 18px;
+	}
+}
 
 </style>

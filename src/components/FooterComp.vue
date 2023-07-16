@@ -31,6 +31,7 @@ export default {
 <style scoped>
 footer{
   height: 20vh;
+  width: 100%;
   background-color: black;
   /* color: rgb(250, 249, 246); */
   color: #42b983;
@@ -57,5 +58,18 @@ i{
 
 .second-first{
 	margin-top: 3px;
+}
+
+
+@media only screen and (max-width: 420px) {
+	i{
+		margin-right: 1.5vh;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	i{
+		margin-right: 1.5vh;
+	}
 }
 </style>

@@ -4,13 +4,20 @@
 			<img alt="Vue logo" src="../assets/carefinder.log.jpg"/>
 			</div>
 			<div class="router-btn">
-			<router-link to="/">Home</router-link> |
-			<router-link to="/about">About</router-link>|
-			<router-link to="/login" id="login">Login</router-link> |
-			<router-link id="signup" to="/signup">Sign Up</router-link> |
-			<button id="logOut" @click="logOut">Sign Out</button> |
-			<label for=""><strong>{{ $store.state.userEmail }}</strong></label>
-		</div>
+        <div>
+          <router-link to="/">Home</router-link> |
+          <router-link to="/about">About</router-link>|
+          <router-link to="/login" id="login">Login</router-link> |
+          <router-link id="signup" to="/signup">Sign Up</router-link> |
+          <button id="logOut" @click="logOut">Sign Out</button> |
+
+        </div>
+        <div>
+          <label>
+            <strong>{{ $store.state.userEmail }}</strong>
+          </label>
+        </div>
+		  </div>
   </nav>
 </template>
 
@@ -91,6 +98,24 @@ nav button{
 
 label{
   color: #42b983;
+}
+
+
+@media only screen and (max-width: 420px) {
+  .router-btn{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+  }
+
+}
+
+@media only screen and (max-width: 768px) {
+  .router-btn{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 </style>

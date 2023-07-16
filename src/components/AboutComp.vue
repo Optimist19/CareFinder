@@ -92,7 +92,7 @@ export default {
 <style scoped>
 
 h1 {
-  font-size: 22px;
+  font-size: 19px;
   margin: 3vh 0;
 }
 
@@ -107,6 +107,10 @@ h1 {
   height: 100%;
   text-align: justify;
   margin: 0 2vw;
-  font-size: 24px;
+  /* font-size: 17px; */
+}
+
+p{
+  margin-bottom: 2vh;
 }
 </style>
