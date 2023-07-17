@@ -378,10 +378,12 @@ form {
 
   table{
     margin: 0 3vw;
+    margin: 0 auto;
   }
 
   td {
     font-size: 10px;
+    padding: 2vh 3vw;
   }
 
   td:nth-child(3){
