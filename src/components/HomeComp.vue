@@ -370,7 +370,7 @@ form {
 }
 
 
-@media only screen and (max-width: 375px) {
+@media only screen and (max-width: 320px) {
   form {
     display: grid;
   }
