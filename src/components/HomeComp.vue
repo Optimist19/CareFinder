@@ -352,6 +352,7 @@ td {
 
 td {
   font-size: 20px;
+  text-transform: lowercase;
 }
 
 tr:nth-child(even) {
@@ -375,13 +376,24 @@ form {
     display: grid;
   }
 
+  table{
+    margin: 0 3vw;
+  }
+
   td {
     font-size: 10px;
-    padding: 2px 3px;
+  }
+
+  td:nth-child(3){
+    display: none;
+  }
+
+  th:nth-child(3){
+    display: none;
   }
 
   header p{
-    font-size: 20px;
+    font-size: 15px;
   }
 
   main .filter i {
