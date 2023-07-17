@@ -376,11 +376,11 @@ form {
   }
 
   td {
-    font-size: 15px;
+    font-size: 10px;
   }
 
   header p{
-    font-size: 20px;
+    font-size: 15px;
   }
 
   main .filter i {
