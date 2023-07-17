@@ -122,12 +122,22 @@ button:hover {
   background-color: white;
 }
 
-@media only screen and (max-width: 420px) {
+@media only screen and (max-width: 375px) {
   .noteText-div {
     display: grid;
     gap: 2vh 0;
- 
   }
+
+  textarea{
+    width: 80%;
+  }
+  h1{
+    font-size: 15px;
+  }
+
+  /* button{
+    max-width: 50%;
+  } */
 }
 
 @media only screen and (max-width: 768px) {

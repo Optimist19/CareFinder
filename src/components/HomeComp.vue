@@ -370,17 +370,18 @@ form {
 }
 
 
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 375px) {
   form {
     display: grid;
   }
 
   td {
     font-size: 10px;
+    padding: 2px 3px;
   }
 
   header p{
-    font-size: 15px;
+    font-size: 20px;
   }
 
   main .filter i {
